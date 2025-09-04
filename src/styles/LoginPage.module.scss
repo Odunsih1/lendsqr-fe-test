@@ -1,0 +1,41 @@
+@use './variables' as v;
+@use './mixins' as m;
+
+.main {
+  min-height: 100vh;
+  padding: v.$spacing-xl;
+  background-color: v.$white;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 1440px;
+}
+
+.container {
+  display: flex;
+  gap: v.$spacing-xl * 2;
+  margin-top: v.$spacing-xl * 2;
+  justify-content: space-between;
+  align-items: center;
+  height: 70dvh;
+
+  @media (max-width: v.$breakpoint-lg) {
+    flex-direction: column;
+    gap: v.$spacing-xl;
+  }
+}
+
+.imageContainer {
+  flex: 1;
+  max-width: 700px;
+  
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    max-width: 100%;
+  }
+}

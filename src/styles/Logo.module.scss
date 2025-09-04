@@ -1,0 +1,23 @@
+@use './variables' as v;
+@use './mixins' as m;
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding: v.$spacing-md;
+
+  img {
+    width: auto;
+    height: auto;
+    max-width: 173px;
+    object-fit: contain;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-base;
+    
+    img {
+      max-width: 140px;
+    }
+  }
+}

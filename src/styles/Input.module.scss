@@ -1,0 +1,57 @@
+@use './variables' as v;
+@use './mixins' as m;
+
+.inputWrapper {
+  width: 100%;
+  margin-bottom: v.$spacing-md;
+}
+
+.label {
+  display: block;
+  margin-bottom: v.$spacing-base;
+  color: v.$text-color;
+  font-size: v.$font-size-base;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  height: v.$input-height;
+  padding: v.$input-padding;
+  border: 2px solid v.$input-border-color;
+  border-radius: v.$border-radius;
+  font-size: v.$font-size-base;
+  color: v.$text-color;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: v.$primary-color;
+  }
+
+  &::placeholder {
+    color: rgba(v.$text-color, 0.6);
+  }
+}
+
+.showPassword {
+  position: absolute;
+  right: v.$spacing-md;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: v.$primary-color;
+  font-size: v.$font-size-small;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

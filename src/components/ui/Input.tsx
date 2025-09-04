@@ -1,0 +1,45 @@
+import type { InputHTMLAttributes } from "react";
+import { useState } from "react";
+import styles from "../../styles/Input.module.scss";
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  showPasswordToggle?: boolean;
+}
+
+const Input = ({
+  label,
+  showPasswordToggle = false,
+  type = "text",
+  ...props
+}: InputProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  return (
+    <div className={styles.inputWrapper}>
+      {label && <label className={styles.label}>{label}</label>}
+      <div className={styles.inputContainer}>
+        <input
+          {...props}
+          type={showPassword ? "text" : type}
+          className={styles.input}
+        />
+        {showPasswordToggle && (
+          <button
+            type="button"
+            className={styles.showPassword}
+            onClick={togglePassword}
+          >
+            {showPassword ? "HIDE" : "SHOW"}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Input;

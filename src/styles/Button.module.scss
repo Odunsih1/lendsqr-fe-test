@@ -1,0 +1,40 @@
+@use './variables' as v;
+@use './mixins' as m;
+
+.button {
+  width: 100%;
+  height: v.$input-height;
+  border: none;
+  border-radius: v.$border-radius;
+  font-size: v.$font-size-base;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.primary {
+  background-color: v.$primary-color;
+  color: v.$white;
+}
+
+.secondary {
+  background-color: v.$white;
+  color: v.$primary-color;
+  border: 2px solid v.$primary-color;
+}
+
+// Responsive styles
+@media (max-width: v.$breakpoint-md) {
+  .button {
+    height: calc(v.$input-height * 0.9);
+    font-size: calc(v.$font-size-base * 0.9);
+  }
+}

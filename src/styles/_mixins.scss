@@ -1,0 +1,14 @@
+@mixin button-base($bg, $color, $border-radius, $font-size, $padding, $border, $width) {
+    background: $bg;
+    color: $color;
+    font-size: $font-size;
+    padding: $padding;
+    border: $border;
+    border-radius: $border-radius;
+    width: $width;
+    cursor: pointer;
+  
+  &:hover {
+    opacity: 0.9;
+  } 
+}

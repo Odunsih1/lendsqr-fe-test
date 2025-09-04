@@ -1,0 +1,49 @@
+@use './variables' as v;
+@use './mixins' as m;
+
+.formContainer {
+  flex: 1;
+  max-width: 450px;
+//   padding: v.$spacing-xl;
+
+  @media (max-width: v.$breakpoint-lg) {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.intro {
+  margin-bottom: v.$spacing-xl;
+}
+
+.title {
+  color: v.$heading-color;
+  font-size: v.$font-size-h1;
+  margin-bottom: v.$spacing-md;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: calc(v.$font-size-h1 * 0.8);
+  }
+}
+
+.subtitle {
+  color: v.$text-color;
+  font-size: v.$font-size-base;
+}
+
+.form {
+  width: 100%;
+}
+
+.forgotPassword {
+  display: block;
+  color: v.$primary-color;
+  text-decoration: none;
+  font-size: v.$font-size-small;
+  font-weight: 600;
+  margin: v.$spacing-md 0 v.$spacing-xl;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
