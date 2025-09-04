@@ -14,10 +14,10 @@ const LoginForm = () => {
         <p className={styles.subtitle}>Enter details to login.</p>
       </div>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <Input type="email" name="email" placeholder="Email" />
+        <Input type="email" name="email" placeholder="Email" className="" />
         <Input
           type="password"
-          name="password"
+          name="password" className=""
           placeholder="Password"
           showPasswordToggle
         />

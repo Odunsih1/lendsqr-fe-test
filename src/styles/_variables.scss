@@ -3,15 +3,18 @@ $primary-color: #39CDCC;
 $text-color: #545F7D;
 $heading-color: #213F7D;
 $input-border-color: #545F7D26;
+$light-gray: #f7f6f6;
 $white: #fff;
 
 // Typography
 $font-size-base: 14px;
+$font-size-md: 16px;
 $font-size-h1: 40px;
 $font-size-small: 12px;
 
 // Spacing
 $spacing-base: 8px;
+$spacing-sm: 10px;
 $spacing-md: 16px;
 $spacing-lg: 24px;
 $spacing-xl: 32px;
@@ -24,5 +27,7 @@ $breakpoint-xl: 1200px;
 
 // Input
 $input-height: 50px;
+$input-search-height: 40px;
 $input-padding: 0 $spacing-base;
 $border-radius: 5px;
+$border-search-radius: 8px;
