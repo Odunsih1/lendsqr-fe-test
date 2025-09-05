@@ -1,0 +1,92 @@
+@use './variables' as v;
+
+.card {
+   width: 240px;
+   height: 160px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   gap: v.$spacing-sm; 
+   background-color: v.$white;
+   border-radius: 4px;
+   padding: v.$spacing-lg;
+   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.04);
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+   
+   &:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+   }
+
+   @media (max-width: v.$breakpoint-xl) {
+       width: 220px;
+       height: 150px;
+       padding: v.$spacing-md;
+   }
+
+   @media (max-width: v.$breakpoint-lg) {
+       width: 200px;
+       height: 140px;
+       flex: 1;
+       min-width: 180px;
+       max-width: 220px;
+   }
+
+   @media (max-width: v.$breakpoint-md) {
+       width: 100%;
+       max-width: 400px;
+       height: 130px;
+       padding: v.$spacing-md;
+   }
+
+   @media (max-width: v.$breakpoint-sm) {
+       width: 100%;
+       max-width: none;
+       height: 120px;
+       padding: v.$spacing-md v.$spacing-sm;
+       gap: v.$spacing-xs;
+   }
+}
+
+.label {
+    color: v.$text-color;
+    font-size: v.$font-size-base;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @media (max-width: v.$breakpoint-xl) {
+        font-size: 13px;
+    }
+
+    @media (max-width: v.$breakpoint-lg) {
+        font-size: v.$font-size-small;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+        font-size: 11px;
+        line-height: 1.2;
+    }
+}
+
+.count {
+    color: v.$heading-color;
+    font-size: v.$font-size-lg;
+    font-weight: 600;
+
+    @media (max-width: v.$breakpoint-xl) {
+        font-size: 22px;
+    }
+
+    @media (max-width: v.$breakpoint-lg) {
+        font-size: 20px;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+        font-size: 18px;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+        font-size: v.$font-size-md;
+    }
+}

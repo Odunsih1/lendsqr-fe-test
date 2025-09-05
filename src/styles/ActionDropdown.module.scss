@@ -1,0 +1,92 @@
+@use './variables' as v;
+
+.actionDropdown {
+  position: absolute;
+  z-index: 1000;
+  background: v.$white;
+  border-radius: v.$border-radius;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(v.$text-color, 0.1);
+  max-width: 180px;
+  width: 180px;
+  
+  // Ensure dropdown doesn't go off-screen
+  &[style*="left"] {
+    @media (max-width: v.$breakpoint-sm) {
+      left: auto !important;
+      right: 10px !important;
+    }
+  }
+}
+
+.actionContent {
+  padding: v.$spacing-xs 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.actionItem {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-sm;
+  padding: v.$spacing-sm v.$spacing-md;
+  border: none;
+  background: transparent;
+  color: v.$text-color;
+  font-size: v.$font-size-base;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  
+  &:hover {
+    background: rgba(v.$primary-color, 0.05);
+    color: v.$heading-color;
+  }
+  
+  &:first-child {
+    border-radius: v.$border-radius v.$border-radius 0 0;
+  }
+  
+  &:last-child {
+    border-radius: 0 0 v.$border-radius v.$border-radius;
+  }
+  
+  &:only-child {
+    border-radius: v.$border-radius;
+  }
+  
+  // Specific hover colors for different actions
+  &:nth-child(1):hover {
+    // View Details - keep default
+    background: rgba(v.$primary-color, 0.05);
+  }
+  
+  &:nth-child(2):hover {
+    // Blacklist User - red tint
+    background: rgba(#E4033B, 0.05);
+    color: #E4033B;
+    
+    .actionIcon {
+      color: #E4033B;
+    }
+  }
+  
+  &:nth-child(3):hover {
+    // Activate User - green tint
+    background: rgba(#39CD62, 0.05);
+    color: #39CD62;
+    
+    .actionIcon {
+      color: #39CD62;
+    }
+  }
+}
+
+.actionIcon {
+  width: 16px;
+  height: 16px;
+  color: v.$text-color;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}

@@ -1,0 +1,73 @@
+@use './variables' as v;
+
+.main {
+    padding: 120px v.$spacing-xl;
+    width: 100%;
+    background-color: rgb(252, 251, 251);
+    min-height: 100vh;
+
+    @media (max-width: v.$breakpoint-xl) {
+        padding: 100px v.$spacing-lg;
+    }
+
+    @media (max-width: v.$breakpoint-lg) {
+        padding: 80px v.$spacing-md v.$spacing-xl v.$spacing-md;
+        margin-left: 0;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+        padding: 80px v.$spacing-md v.$spacing-lg v.$spacing-md;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+        padding: 70px v.$spacing-sm v.$spacing-md v.$spacing-sm;
+    }
+}
+
+.submain {
+    max-width: 1337px;
+    margin: auto;
+}
+
+.h1 {
+    font-size: v.$font-size-lg;
+    color: v.$heading-color;
+    font-weight: 500;
+    margin-bottom: v.$spacing-xl;
+
+    @media (max-width: v.$breakpoint-md) {
+        font-size: 20px;
+        margin-bottom: v.$spacing-lg;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+        font-size: 18px;
+        margin-bottom: v.$spacing-md;
+    }
+}
+
+.section1 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: v.$spacing-md;
+
+    @media (max-width: v.$breakpoint-xl) {
+        gap: v.$spacing-sm;
+    }
+
+    @media (max-width: v.$breakpoint-lg) {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    @media (max-width: v.$breakpoint-md) {
+        flex-direction: column;
+        gap: v.$spacing-md;
+        align-items: center;
+    }
+
+    @media (max-width: v.$breakpoint-sm) {
+        gap: v.$spacing-sm;
+    }
+}

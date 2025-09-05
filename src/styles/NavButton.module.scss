@@ -1,0 +1,46 @@
+@use './variables' as v;
+@use './mixins' as m;
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-sm;
+  width: 100%;
+  padding: v.$spacing-sm v.$spacing-md;
+  background: none;
+  border: none;
+  color: v.$light-heading-color;
+  font-size: v.$font-size-base;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+
+  &:hover, &.active {
+    border-left-style: solid;
+    border-width: 3px;
+    border-left-color: #2cc0c0;
+    background-color: rgba(v.$primary-color, 0.06);
+    color: v.$heading-color;
+
+
+    .icon {
+      color: v.$primary-color;
+    }
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.text {
+  font-weight: 400;
+}

@@ -1,0 +1,283 @@
+@use './variables' as v;
+
+.table {
+    width: 100%;
+    background-color: v.$white;
+    padding: 20px;
+    margin-top: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.04);
+
+    // Mobile-first responsive table wrapper
+    @media (max-width: v.$breakpoint-lg) {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: v.$white;
+        min-width: 900px; // Minimum width to maintain readability
+        
+        @media (max-width: v.$breakpoint-xl) {
+            min-width: 800px;
+        }
+        
+        @media (max-width: v.$breakpoint-lg) {
+            min-width: 700px;
+        }
+    }
+}
+
+.head {
+    background-color: v.$white;
+    
+    th {
+        padding: v.$spacing-md v.$spacing-sm;
+        text-align: left;
+        cursor: pointer;
+        color: v.$text-color;
+        font-weight: 600;
+        font-size: v.$font-size-small;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        // border-bottom: 1px solid #213F7D1A;
+        position: relative;
+        white-space: nowrap;
+        
+        // Column widths for proper alignment
+        &:nth-child(1) { width: 15%; min-width: 120px; } // ORGANIZATION
+        &:nth-child(2) { width: 15%; min-width: 100px; } // USERNAME
+        &:nth-child(3) { width: 25%; min-width: 180px; } // EMAIL
+        &:nth-child(4) { width: 15%; min-width: 120px; } // PHONE NUMBER
+        &:nth-child(5) { width: 20%; min-width: 150px; } // DATE JOINED
+        &:nth-child(6) { width: 10%; min-width: 90px; }  // STATUS
+        &:nth-child(7) { width: 5%; min-width: 40px; }   // ACTION
+        
+        // Filter icon styling
+        svg {
+            margin-left: v.$spacing-xs;
+            width: 16px;
+            height: 16px;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+        
+        &:hover {
+            background-color: rgba(v.$primary-color, 0.02);
+            
+            svg {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: v.$breakpoint-md) {
+            padding: v.$spacing-sm v.$spacing-xs;
+            font-size: 10px;
+            
+            svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    }
+}
+
+.body {
+    tr {
+        border-bottom: 1px solid #213F7D0F;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: rgba(v.$primary-color, 0.01);
+        }
+        
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    
+    td {
+        padding: v.$spacing-md v.$spacing-sm;
+        color: v.$text-color;
+        font-size: v.$font-size-base;
+        vertical-align: middle;
+        
+        // Match header column widths
+        &:nth-child(1) { width: 15%; min-width: 120px; }
+        &:nth-child(2) { width: 15%; min-width: 100px; }
+        &:nth-child(3) { width: 25%; min-width: 180px; }
+        &:nth-child(4) { width: 15%; min-width: 120px; }
+        &:nth-child(5) { width: 20%; min-width: 150px; }
+        &:nth-child(6) { width: 10%; min-width: 90px; }
+        &:nth-child(7) { width: 5%; min-width: 40px; text-align: center; }
+
+        @media (max-width: v.$breakpoint-lg) {
+            font-size: 13px;
+            padding: v.$spacing-sm v.$spacing-xs;
+        }
+
+        @media (max-width: v.$breakpoint-md) {
+            font-size: v.$font-size-small;
+            padding: v.$spacing-xs;
+        }
+    }
+}
+
+// Status badge styles
+.statusBadge {
+    display: inline-block;
+    padding: v.$spacing-xs v.$spacing-sm;
+    border-radius: 100px;
+    font-size: v.$font-size-small;
+    font-weight: 500;
+    text-align: center;
+    min-width: 80px;
+    
+    @media (max-width: v.$breakpoint-lg) {
+        min-width: 70px;
+        padding: 6px v.$spacing-xs;
+        font-size: 11px;
+    }
+}
+
+.inactive {
+    @extend .statusBadge;
+    background-color: #f0f1f3;
+    color: v.$text-color;
+}
+
+.active {
+    @extend .statusBadge;
+    background-color: #eef7f0;
+    color: #39CD62;
+}
+
+.pending {
+    @extend .statusBadge;
+    background-color: #fcf7e9;
+    color: #E9B200;
+}
+
+.blacklist {
+    @extend .statusBadge;
+    background-color: #fae6eb;
+    color: #E4033B;
+}
+
+.actionIcon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: v.$spacing-xs;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+        background-color: rgba(v.$primary-color, 0.1);
+    }
+    
+    svg {
+        width: 20px;
+        height: 20px;
+        
+        @media (max-width: v.$breakpoint-md) {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+.showingOption {
+    display: flex;
+    justify-content: space-between;
+}
+
+.showing {
+    font-size: v.$font-size-base;
+    color: v.$text-color;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.current, .arrow {
+    color: v.$heading-color;
+    background-color: #e6e9f0;
+    border-radius: v.$border-radius;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.move {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    p {
+        font-size: v.$font-size-base;
+        color: v.$text-color; 
+        cursor: pointer;
+    }
+}
+
+// Mobile card view for very small screens
+@media (max-width: v.$breakpoint-sm) {
+    .table {
+        table, .head, .body, th, td, tr {
+            display: block;
+        }
+        
+        .head {
+            display: none; // Hide header on mobile
+        }
+        
+        .body {
+            tr {
+                background-color: v.$white;
+                border: 1px solid #213F7D0F;
+                border-radius: 8px;
+                margin-bottom: v.$spacing-md;
+                padding: v.$spacing-md;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+                
+                td {
+                    border: none;
+                    padding: v.$spacing-xs 0;
+                    text-align: left;
+                    width: 100% !important;
+                    min-width: unset !important;
+                    
+                    &:before {
+                        content: attr(data-label) ": ";
+                        font-weight: 600;
+                        color: v.$heading-color;
+                        display: inline-block;
+                        min-width: 100px;
+                    }
+                    
+                    &:last-child {
+                        text-align: center;
+                        padding-top: v.$spacing-sm;
+                        
+                        &:before {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+        
+        .statusBadge {
+            display: inline-block;
+            margin-left: 0;
+        }
+    }
+}

@@ -2,6 +2,7 @@
 $primary-color: #39CDCC;
 $text-color: #545F7D;
 $heading-color: #213F7D;
+$light-heading-color: #778ab1;
 $input-border-color: #545F7D26;
 $light-gray: #f7f6f6;
 $white: #fff;
@@ -9,21 +10,25 @@ $white: #fff;
 // Typography
 $font-size-base: 14px;
 $font-size-md: 16px;
+$font-size-lg: 24px;
 $font-size-h1: 40px;
 $font-size-small: 12px;
 
 // Spacing
+$spacing-xs: 6px;
 $spacing-base: 8px;
 $spacing-sm: 10px;
 $spacing-md: 16px;
 $spacing-lg: 24px;
 $spacing-xl: 32px;
+$spacing-4xl: 120px;
 
 // Breakpoints
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
 
 // Input
 $input-height: 50px;

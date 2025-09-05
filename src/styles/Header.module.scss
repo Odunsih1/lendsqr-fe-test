@@ -170,22 +170,24 @@
 .notificationIcon {
   padding: 0;
   border: none;
+  background-color: v.$white;
+  cursor: pointer;
   color: black;
 
-  svg {
+  
     width: 26px;
     height: 26px;
-  }
+  
 
   &:hover {
     color: v.$primary-color;
   }
 
   @media (max-width: v.$breakpoint-md) {
-    svg {
+  
     width: 22px;
     height: 22px;
-  }
+  
   }
 }
 

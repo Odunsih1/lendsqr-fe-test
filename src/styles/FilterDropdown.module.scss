@@ -1,0 +1,148 @@
+@use './variables' as v;
+
+.filterDropdown {
+  position: absolute;
+  z-index: 1000;
+  background: v.$white;
+  border-radius: v.$border-radius;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(v.$text-color, 0.1);
+  max-width: 270px;
+  width: 270px;
+  
+  // Adjust position on mobile
+  @media (max-width: v.$breakpoint-sm) {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 270px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+.filterContent {
+  padding: v.$spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-md;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xs;
+}
+
+.label {
+  font-size: v.$font-size-base;
+  font-weight: 500;
+  color: v.$text-color;
+  margin-bottom: v.$spacing-xs;
+}
+
+.input,
+.select,
+.dateInput {
+//   height: v.$input-search-height;
+  padding: v.$spacing-base v.$spacing-md;
+  border: 1px solid v.$input-border-color;
+  border-radius: v.$border-search-radius;
+  font-size: v.$font-size-base;
+  color: v.$text-color;
+  background: v.$white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: v.$primary-color;
+    box-shadow: 0 0 0 3px rgba(v.$primary-color, 0.1);
+  }
+  
+  &::placeholder {
+    color: rgba(v.$text-color, 0.5);
+  }
+  
+  @media (max-width: v.$breakpoint-sm) {
+    height: 45px;
+    font-size: 16px; // Prevent zoom on iOS
+  }
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.dateInputWrapper {
+  position: relative;
+  
+  .dateInput {
+    // position: relative;
+    width: 165px;
+    padding-right: 40px;
+    
+    &::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      position: absolute;
+      right: 12px;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+  
+  .calendarIcon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: rgba(v.$text-color, 0.5);
+    pointer-events: none;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: v.$spacing-sm;
+  margin-top: v.$spacing-md;
+  
+  .resetButton,
+  .filterButton {
+    flex: 1;
+    width: auto; // Override button component's width: 100%
+    height: 40px; // Slightly smaller for dropdown context
+    
+    // Override button component styles for dropdown context
+    &.resetButton {
+      height: 40px !important;
+    }
+    
+    &.filterButton {
+      height: 40px !important;
+    }
+  }
+}
+
+// Mobile overlay
+@media (max-width: v.$breakpoint-sm) {
+  .filterDropdown::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+}

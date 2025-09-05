@@ -1,0 +1,91 @@
+@use './variables' as v;
+
+.nav {
+  padding: v.$spacing-4xl 0 v.$spacing-lg 0;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-sm;
+  width: 100%;
+  max-width: 280px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: v.$white;
+  border-right: 1px solid rgba(v.$text-color, 0.1);
+  transition: transform 0.3s ease;
+
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+  &::-webkit-scrollbar { 
+    display: none;
+  }
+
+  @media (max-width: v.$breakpoint-xl) {
+    max-width: 240px;
+  }
+
+  @media (max-width: v.$breakpoint-lg) {
+    position: fixed;
+    top: 70px; 
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    max-width: 280px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    max-width: 260px;
+    padding: v.$spacing-lg 0;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    max-width: 100vw;
+    width: 100vw;
+  }
+}
+
+.orgSwitcher {
+  padding: 0 0 v.$spacing-lg;
+  color: v.$heading-color;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: 0 0 v.$spacing-md;
+  }
+}
+
+.switchOrg {
+  :global(span:last-child) {
+    display: flex;
+    align-items: start;
+    gap: v.$spacing-sm;
+  }
+}
+
+.navSection {
+  padding-top: v.$spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xs;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding-top: v.$spacing-md;
+  }
+}
+
+.sectionTitle {
+  padding: 0 v.$spacing-lg;
+  color: v.$text-color;
+  font-size: v.$font-size-small;
+  font-weight: 500;
+  margin-bottom: v.$spacing-xs;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: 0 v.$spacing-md;
+    font-size: 11px;
+  }
+}
