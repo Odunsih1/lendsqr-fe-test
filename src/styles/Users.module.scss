@@ -194,6 +194,11 @@
 .showingOption {
     display: flex;
     justify-content: space-between;
+
+      @media (max-width: v.$breakpoint-md) {
+            flex-direction: column;
+        }
+
 }
 
 .showing {
@@ -207,7 +212,9 @@
 .current, .arrow {
     color: v.$heading-color;
     background-color: #e6e9f0;
+    border: none;
     border-radius: v.$border-radius;
+    font-size: v.$font-size-base;
     padding: 10px;
     display: flex;
     gap: 10px;
@@ -216,16 +223,35 @@
     cursor: pointer;
 }
 
+.arrow {
+    height: 30px;
+
+}
+
 .move {
     display: flex;
     align-items: center;
     gap: 10px;
+}
 
-    p {
-        font-size: v.$font-size-base;
-        color: v.$text-color; 
-        cursor: pointer;
+.number {
+    font-size: v.$font-size-base;
+    color: v.$text-light-color; 
+    height: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+
+    &:active {
+        background-color: transparent;
+        border: none;
     }
+}
+
+.cPage {
+    background-color: transparent;
+    border: none;
+    color: v.$heading-color;
 }
 
 // Mobile card view for very small screens

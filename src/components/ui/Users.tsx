@@ -1,29 +1,83 @@
-import React, { useState, useRef } from "react";
-import * as Icons from "../../assets/icons";
+import React, { useState, useEffect, useCallback } from "react";
 import FilterDropdown from "./FilterDropdown";
 import ActionDropdown from "./ActionDropdown";
+import UserTable from "./UserTable";
+import Pagination from "./Pagination";
 import styles from "../../styles/Users.module.scss";
 
-const Users = () => {
+interface User {
+  id: string;
+  organization: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  dateJoined: string;
+  status: string;
+}
+
+const Users: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(10); // Default to 10
   const [filterDropdown, setFilterDropdown] = useState({
     isOpen: false,
     position: { top: 0, left: 0 },
   });
-
   const [actionDropdown, setActionDropdown] = useState({
     isOpen: false,
     position: { top: 0, left: 0 },
     userId: "",
   });
 
-  const filterRefs = useRef<(HTMLTableHeaderCellElement | null)[]>([]);
-  const actionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Fetch users data
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch("/data/user.json");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const formattedUsers = data.users.map((user: any, index: number) => ({
+          id: user.id || `${index + 1}`,
+          organization: user.organization || "Unknown",
+          username:
+            user.personalInformation?.fullName?.split(" ")[0] || "Unknown",
+          email: user.email || "N/A",
+          phoneNumber: user.phoneNumber || "N/A",
+          dateJoined: user.dateJoined
+            ? new Date(user.dateJoined).toLocaleString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "N/A",
+          status: user.status ? user.status.toLowerCase() : "unknown",
+        }));
+        setUsers(formattedUsers);
+      } catch (error: any) {
+        console.error("Fetch error:", error.message);
+        setError(
+          "Failed to load users. Please check the JSON file or network."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleFilterClick = (event: React.MouseEvent, index: number) => {
-    event.preventDefault();
-    const rect = filterRefs.current[index]?.getBoundingClientRect();
+    fetchUsers();
+  }, []);
 
-    if (rect) {
+  const handleFilterClick = useCallback(
+    (event: React.MouseEvent, index: number) => {
+      event.preventDefault();
+      const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
       setFilterDropdown({
         isOpen: !filterDropdown.isOpen,
         position: {
@@ -31,193 +85,83 @@ const Users = () => {
           left: rect.left + window.scrollX,
         },
       });
-    }
-  };
+    },
+    [filterDropdown.isOpen]
+  );
 
-  const handleActionClick = (
-    event: React.MouseEvent,
-    userId: string,
-    index: number
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const rect = actionRefs.current[index]?.getBoundingClientRect();
-
-    if (rect) {
+  const handleActionClick = useCallback(
+    (event: React.MouseEvent, userId: string, index: number) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
       setActionDropdown({
         isOpen: !actionDropdown.isOpen,
         position: {
           top: rect.bottom + window.scrollY + 8,
-          left: rect.right + window.scrollX - 180, // Align to right edge
+          left: rect.right + window.scrollX - 180,
         },
         userId,
       });
-    }
-  };
+    },
+    [actionDropdown.isOpen]
+  );
 
-  const closeFilterDropdown = () => {
+  const closeFilterDropdown = useCallback(() => {
     setFilterDropdown((prev) => ({ ...prev, isOpen: false }));
-  };
+  }, []);
 
-  const closeActionDropdown = () => {
+  const closeActionDropdown = useCallback(() => {
     setActionDropdown((prev) => ({ ...prev, isOpen: false }));
-  };
+  }, []);
 
-  const users = [
-    {
-      id: "1",
-      organization: "Lendsqr",
-      username: "Adedeji",
-      email: "adedeji@lendsqr.com",
-      phone: "08078903721",
-      dateJoined: "May 15, 2020 10:00 AM",
-      status: "inactive",
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page >= 1 && page <= Math.ceil(users.length / usersPerPage)) {
+        setCurrentPage(page);
+      }
     },
-    {
-      id: "2",
-      organization: "Lendsqr",
-      username: "Deborah",
-      email: "deborah@lendsqr.com",
-      phone: "08078903722",
-      dateJoined: "Apr 30, 2020 10:00 AM",
-      status: "active",
-    },
-    {
-      id: "3",
-      organization: "Lendsqr",
-      username: "Grace",
-      email: "grace@lendsqr.com",
-      phone: "08078903723",
-      dateJoined: "Apr 30, 2020 10:00 AM",
-      status: "pending",
-    },
-    {
-      id: "4",
-      organization: "Lendsqr",
-      username: "Tosin",
-      email: "tosin@lendsqr.com",
-      phone: "08078903724",
-      dateJoined: "Apr 10, 2020 10:00 AM",
-      status: "blacklist",
-    },
-  ];
+    [users.length, usersPerPage]
+  );
+
+  const handleUsersPerPageChange = useCallback((newUsersPerPage: number) => {
+    setUsersPerPage(newUsersPerPage);
+    setCurrentPage(1); // Reset to page 1
+  }, []);
 
   return (
     <>
-      <div className={styles.table}>
-        <table>
-          <thead>
-            <tr className={styles.head}>
-              <th
-                ref={(el) => (filterRefs.current[0] = el)}
-                onClick={(e) => handleFilterClick(e, 0)}
-              >
-                ORGANIZATION
-                <Icons.Filter />
-              </th>
-              <th
-                ref={(el) => (filterRefs.current[1] = el)}
-                onClick={(e) => handleFilterClick(e, 1)}
-              >
-                USERNAME
-                <Icons.Filter />
-              </th>
-              <th
-                ref={(el) => (filterRefs.current[2] = el)}
-                onClick={(e) => handleFilterClick(e, 2)}
-              >
-                EMAIL
-                <Icons.Filter />
-              </th>
-              <th
-                ref={(el) => (filterRefs.current[3] = el)}
-                onClick={(e) => handleFilterClick(e, 3)}
-              >
-                PHONE NUMBER
-                <Icons.Filter />
-              </th>
-              <th
-                ref={(el) => (filterRefs.current[4] = el)}
-                onClick={(e) => handleFilterClick(e, 4)}
-              >
-                DATE JOINED
-                <Icons.Filter />
-              </th>
-              <th
-                ref={(el) => (filterRefs.current[5] = el)}
-                onClick={(e) => handleFilterClick(e, 5)}
-              >
-                STATUS
-                <Icons.Filter />
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody className={styles.body}>
-            {users.map((user, index) => (
-              <tr key={user.id}>
-                <td data-label="Organization">{user.organization}</td>
-                <td data-label="Username">{user.username}</td>
-                <td data-label="Email">{user.email}</td>
-                <td data-label="Phone Number">{user.phone}</td>
-                <td data-label="Date Joined">{user.dateJoined}</td>
-                <td data-label="Status">
-                  <span className={styles[user.status]}>
-                    {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
-                  </span>
-                </td>
-                <td>
-                  <div
-                    ref={(el) => (actionRefs.current[index] = el)}
-                    className={styles.actionIcon}
-                    onClick={(e) => handleActionClick(e, user.id, index)}
-                  >
-                    <Icons.IcIcon />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <FilterDropdown
-        isOpen={filterDropdown.isOpen}
-        onClose={closeFilterDropdown}
-        position={filterDropdown.position}
-      />
-
-      <ActionDropdown
-        isOpen={actionDropdown.isOpen}
-        onClose={closeActionDropdown}
-        position={actionDropdown.position}
-        userId={actionDropdown.userId}
-      />
-      <div className={styles.showingOption}>
-        <div>
-          <p className={styles.showing}>
-            Showing{" "}
-            <span className={styles.current}>
-              100 <Icons.DownArrowIcon />{" "}
-            </span>{" "}
-            out of 500
-          </p>
-        </div>
-        <div className={styles.move}>
-          <div className={styles.arrow}>
-            <Icons.LeftArrowIcon />
-          </div>
-          <p>1</p>
-          <p>2</p>
-          <p>3</p>
-          <p>...</p>
-          <p>15</p>
-          <p>16</p>
-          <div className={styles.arrow}>
-            <Icons.RightArrowIcon />
-          </div>
-        </div>
-      </div>
+      {loading && <div>Loading users...</div>}
+      {error && <div className={styles.error}>Error: {error}</div>}
+      {!loading && !error && (
+        <>
+          <UserTable
+            users={users.slice(
+              (currentPage - 1) * usersPerPage,
+              currentPage * usersPerPage
+            )}
+            onFilterClick={handleFilterClick}
+            onActionClick={handleActionClick}
+          />
+          <FilterDropdown
+            isOpen={filterDropdown.isOpen}
+            onClose={closeFilterDropdown}
+            position={filterDropdown.position}
+          />
+          <ActionDropdown
+            isOpen={actionDropdown.isOpen}
+            onClose={closeActionDropdown}
+            position={actionDropdown.position}
+            userId={actionDropdown.userId}
+          />
+          <Pagination
+            totalUsers={users.length}
+            usersPerPage={usersPerPage}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            onUsersPerPageChange={handleUsersPerPageChange}
+          />
+        </>
+      )}
     </>
   );
 };
