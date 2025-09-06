@@ -9,6 +9,7 @@
   flex-direction: column;
   margin: auto;
   max-width: 1440px;
+  font-family: 'Avenir', sans-serif;
 }
 
 .container {
@@ -38,4 +39,9 @@
   @media (max-width: v.$breakpoint-lg) {
     display: none;
   }
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/src/assets/font/Metropolis-Regular.otf');
 }

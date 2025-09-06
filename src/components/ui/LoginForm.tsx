@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import Input from "./Input";
 import styles from "../../styles/LoginForm.module.scss";
+import LoginInput from "./LoginInput";
 
 interface FormData {
   email: string;
@@ -64,7 +64,7 @@ const LoginForm: React.FC = () => {
     }
 
     try {
-      // Simulate async login (e.g., API call)
+      // Simulate async login
       await new Promise((resolve) => setTimeout(resolve, 500)); // Mock delay
       navigate("/dashboard");
     } catch (error) {
@@ -92,7 +92,7 @@ const LoginForm: React.FC = () => {
             {errors.general}
           </p>
         )}
-        <Input
+        <LoginInput
           type="email"
           name="email"
           placeholder="Email"
@@ -107,7 +107,7 @@ const LoginForm: React.FC = () => {
             {errors.email}
           </p>
         )}
-        <Input
+        <LoginInput
           type="password"
           name="password"
           className={styles.input}

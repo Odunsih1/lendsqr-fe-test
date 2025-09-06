@@ -22,7 +22,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Get unique organizations from users data
+  // Get organizations from users data
   const uniqueOrganizations = React.useMemo(() => {
     const orgs = [...new Set(users.map((user) => user.organization))];
     return orgs.filter((org) => org && org !== "Unknown").sort();

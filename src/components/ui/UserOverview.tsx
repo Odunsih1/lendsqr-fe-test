@@ -1,4 +1,3 @@
-// src/components/ui/UserOverview.tsx
 import React from "react";
 import * as Icons from "../../assets/icons";
 import type { UserOverviewProps } from "../../types/user.types";

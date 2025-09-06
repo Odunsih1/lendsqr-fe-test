@@ -95,7 +95,6 @@ const Pagination: React.FC<PaginationProps> = ({
                 </option>
               ))}
             </select>{" "}
-            {/* <Icons.DownArrowIcon /> */}
           </span>{" "}
           out of {totalUsers}
         </p>

@@ -1,4 +1,3 @@
-// src/components/ui/UserDetails.tsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UserHeader from "./UserHeader";

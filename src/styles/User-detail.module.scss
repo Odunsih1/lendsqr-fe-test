@@ -3,8 +3,15 @@
 .layout {
     display: flex;
     position: relative;
+    font-family: 'Work Sans', sans-serif;
     
     @media (max-width: v.$breakpoint-lg) {
         flex-direction: column;
     }
+}
+
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url('/src/assets/font/WorkSans-Regular.ttf') format('truetype');
 }

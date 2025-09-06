@@ -73,7 +73,7 @@ const UserTable: React.FC<UserTableProps> = ({
               <td>
                 <div
                   ref={(el) => {
-                    actionRefs.current[index] = el; // No implicit return
+                    actionRefs.current[index] = el; 
                   }}
                   className={styles.actionIcon}
                   onClick={(e) => onActionClick(e, user.id, index)}
