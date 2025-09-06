@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/user-details/:userId" element={<User />} />
-          <Route path="*" element={<Navigate to="/user" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>{" "}
       </BrowserRouter>
     </UserProvider>
