@@ -44,37 +44,47 @@ const Users: React.FC = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        
+
         // Get status updates from localStorage
         const statusUpdates = UserStorageService.getUserStatusUpdates();
-        
-        const formattedUsers: User[] = data.users.map((user: any, index: number) => ({
-          id: user.id?.toString() || `${index + 1}`,
-          organization: user.organization || "Unknown",
-          username: user.personalInformation?.fullName?.split(" ")[0] || user.username || "Unknown",
-          email: user.email || "N/A",
-          phoneNumber: user.phoneNumber || "N/A",
-          dateJoined: user.dateJoined
-            ? new Date(user.dateJoined).toLocaleString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "N/A",
-          status: statusUpdates[user.id?.toString()] || user.status?.toLowerCase() || "unknown",
-          personalInformation: user.personalInformation,
-          educationAndEmployment: user.educationAndEmployment,
-          socials: user.socials,
-          guarantor: user.guarantor,
-        }));
-        
+
+        const formattedUsers: User[] = data.users.map(
+          (user: any, index: number) => ({
+            id: user.id?.toString() || `${index + 1}`,
+            organization: user.organization || "Unknown",
+            username:
+              user.personalInformation?.fullName?.split(" ")[0] ||
+              user.username ||
+              "Unknown",
+            email: user.email || "N/A",
+            phoneNumber: user.phoneNumber || "N/A",
+            dateJoined: user.dateJoined
+              ? new Date(user.dateJoined).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "N/A",
+            status:
+              statusUpdates[user.id?.toString()] ||
+              user.status?.toLowerCase() ||
+              "unknown",
+            personalInformation: user.personalInformation,
+            educationAndEmployment: user.educationAndEmployment,
+            socials: user.socials,
+            guarantor: user.guarantor,
+          })
+        );
+
         setAllUsers(formattedUsers);
         setFilteredUsers(formattedUsers);
       } catch (error: any) {
         console.error("Fetch error:", error.message);
-        setError("Failed to load users. Please check the JSON file or network.");
+        setError(
+          "Failed to load users. Please check the JSON file or network."
+        );
       } finally {
         setLoading(false);
       }
@@ -100,20 +110,23 @@ const Users: React.FC = () => {
   }, []);
 
   // Handle status change
-  const handleStatusChange = useCallback((userId: string, newStatus: string) => {
-    // Update in localStorage
-    UserStorageService.updateUserStatus(userId, newStatus);
-    
-    // Update in state
-    setAllUsers(prevUsers => 
-      prevUsers.map(user => 
-        user.id === userId ? { ...user, status: newStatus } : user
-      )
-    );
-  }, []);
+  const handleStatusChange = useCallback(
+    (userId: string, newStatus: string) => {
+      // Update in localStorage
+      UserStorageService.updateUserStatus(userId, newStatus);
+
+      // Update in state
+      setAllUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId ? { ...user, status: newStatus } : user
+        )
+      );
+    },
+    []
+  );
 
   const handleFilterClick = useCallback(
-    (event: React.MouseEvent, index: number) => {
+    (event: React.MouseEvent) => {
       event.preventDefault();
       const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
       setFilterDropdown({
@@ -128,7 +141,7 @@ const Users: React.FC = () => {
   );
 
   const handleActionClick = useCallback(
-    (event: React.MouseEvent, userId: string, index: number) => {
+    (event: React.MouseEvent, userId: string) => {
       event.preventDefault();
       event.stopPropagation();
       const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
@@ -203,14 +216,18 @@ const Users: React.FC = () => {
     return (
       <div className={styles.emptyState}>
         <p>No users found matching the current filters.</p>
-        <button onClick={() => setActiveFilters({
-          organization: "",
-          username: "",
-          email: "",
-          date: "",
-          phoneNumber: "",
-          status: "",
-        })}>
+        <button
+          onClick={() =>
+            setActiveFilters({
+              organization: "",
+              username: "",
+              email: "",
+              date: "",
+              phoneNumber: "",
+              status: "",
+            })
+          }
+        >
           Clear Filters
         </button>
       </div>
@@ -224,7 +241,7 @@ const Users: React.FC = () => {
         onFilterClick={handleFilterClick}
         onActionClick={handleActionClick}
       />
-      
+
       <FilterDropdown
         isOpen={filterDropdown.isOpen}
         onClose={closeFilterDropdown}
@@ -232,7 +249,7 @@ const Users: React.FC = () => {
         onFilter={handleFilter}
         users={allUsers}
       />
-      
+
       <ActionDropdown
         isOpen={actionDropdown.isOpen}
         onClose={closeActionDropdown}
@@ -240,7 +257,7 @@ const Users: React.FC = () => {
         userId={actionDropdown.userId}
         onStatusChange={handleStatusChange}
       />
-      
+
       <Pagination
         totalUsers={filteredUsers.length}
         usersPerPage={usersPerPage}

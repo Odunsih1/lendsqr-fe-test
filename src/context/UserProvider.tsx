@@ -1,32 +1,18 @@
-import React,  {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import React, { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import type {
   User,
   UserStatus,
   FilterState,
-  UserContextType,
+  RawUser,
 } from "../types/user.types";
+import { UserContext } from "./useUserContext";
 import { FilterUtils } from "../utils/filterUtils";
 import { UserStorageService } from "../utils/LocalStorage";
 
 interface UserProviderProps {
   children: ReactNode;
 }
-
-const UserContext = createContext<UserContextType | undefined>(undefined);
-
-export const useUserContext = (): UserContextType => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUserContext must be used within a UserProvider");
-  }
-  return context;
-};
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [users, setUsers] = useState<User[]>([]);
@@ -41,7 +27,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     status: "",
   });
 
-  // Load users and apply status updates from localStorage
   useEffect(() => {
     const loadUsers = async () => {
       try {
@@ -51,15 +36,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
         const data = await response.json();
 
-        // Get status updates from localStorage
         const statusUpdates = UserStorageService.getUserStatusUpdates();
 
         const formattedUsers: User[] = data.users.map(
-          (user: any, index: number) => ({
-            id: user.id || `${index + 1}`,
+          (user: RawUser, index: number) => ({
+            id: user.id?.toString() || `${index + 1}`,
             organization: user.organization || "Unknown",
             username:
-              user.personalInformation?.fullName?.split(" ")[0] || "Unknown",
+              user.personalInformation?.fullName?.split(" ")[0] ||
+              user.username ||
+              "Unknown",
             email: user.email || "N/A",
             phoneNumber: user.phoneNumber || "N/A",
             dateJoined: user.dateJoined
@@ -72,11 +58,60 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 })
               : "N/A",
             status:
-              statusUpdates[user.id] || user.status?.toLowerCase() || "unknown",
-            personalInformation: user.personalInformation,
-            educationAndEmployment: user.educationAndEmployment,
-            socials: user.socials,
-            guarantor: user.guarantor,
+              (user.id && statusUpdates[user.id.toString()]) ||
+              user.status?.toLowerCase() ||
+              "unknown",
+            avatar: user.avatar || "https://default-avatar.com",
+            name: user.name || user.personalInformation?.fullName || "Unknown",
+            tier: user.tier || 1,
+            bankBalance: user.bankBalance || "0",
+            bankDetails: user.bankDetails || "N/A",
+            personalInformation: user.personalInformation
+              ? {
+                  fullName: user.personalInformation.fullName || "Unknown",
+                  email: user.personalInformation.email || "N/A",
+                  bvn: user.personalInformation.bvn || 0,
+                  gender: user.personalInformation.gender || "N/A",
+                  maritalStatus:
+                    user.personalInformation.maritalStatus || "N/A",
+                  children: user.personalInformation.children || 0,
+                  typeOfResidence:
+                    user.personalInformation.typeOfResidence || "N/A",
+                  phoneNumber: user.personalInformation.phoneNumber || "N/A",
+                }
+              : undefined,
+            educationAndEmployment: user.educationAndEmployment
+              ? {
+                  levelOfEducation:
+                    user.educationAndEmployment.levelOfEducation || "N/A",
+                  employmentStatus:
+                    user.educationAndEmployment.employmentStatus || "N/A",
+                  sectorOfEmployment:
+                    user.educationAndEmployment.sectorOfEmployment || "N/A",
+                  durationOfEmployment:
+                    user.educationAndEmployment.durationOfEmployment || "N/A",
+                  officeEmail: user.educationAndEmployment.officeEmail || "N/A",
+                  monthlyIncome:
+                    user.educationAndEmployment.monthlyIncome || "N/A",
+                  loanRepayment:
+                    user.educationAndEmployment.loanRepayment || "N/A",
+                }
+              : undefined,
+            socials: user.socials
+              ? {
+                  twitter: user.socials.twitter || "N/A",
+                  facebook: user.socials.facebook || "N/A",
+                  instagram: user.socials.instagram || "N/A",
+                }
+              : undefined,
+            guarantor: user.guarantor
+              ? {
+                  fullName: user.guarantor.fullName || "N/A",
+                  phoneNumber: user.guarantor.phoneNumber || "N/A",
+                  email: user.guarantor.email || "N/A",
+                  relationship: user.guarantor.relationship || "N/A",
+                }
+              : undefined,
           })
         );
 
@@ -90,36 +125,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     loadUsers();
   }, []);
 
-  // Update user status
   const updateUserStatus = (userId: string, status: UserStatus): void => {
-    // Update in localStorage
     UserStorageService.updateUserStatus(userId, status);
-
-    // Update in state
     const updatedUsers = users.map((user) =>
       user.id === userId ? { ...user, status } : user
     );
-
     setUsers(updatedUsers);
-
-    // Apply current filters to updated users
     const filtered = FilterUtils.applyFilters(updatedUsers, appliedFilters);
     setFilteredUsers(filtered);
-
-    // Update selected user if it's the one being updated
     if (selectedUser?.id === userId) {
       setSelectedUser({ ...selectedUser, status });
     }
   };
 
-  // Apply filters
   const applyFilters = (filters: FilterState): void => {
     setAppliedFilters(filters);
     const filtered = FilterUtils.applyFilters(users, filters);
     setFilteredUsers(filtered);
   };
 
-  // Clear filters
   const clearFilters = (): void => {
     const emptyFilters: FilterState = {
       organization: "",
@@ -133,12 +157,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setFilteredUsers(users);
   };
 
-  // Select user for details view
   const selectUser = (user: User): void => {
     setSelectedUser(user);
   };
 
-  const contextValue: UserContextType = {
+  const contextValue = {
     users,
     filteredUsers,
     selectedUser,

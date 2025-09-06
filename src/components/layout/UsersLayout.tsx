@@ -1,4 +1,3 @@
-import React from "react";
 import * as Icons from "../../assets/icons";
 import Card from "../ui/Card";
 import styles from "../../styles/UsersLayout.module.scss";

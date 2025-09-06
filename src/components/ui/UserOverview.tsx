@@ -1,3 +1,4 @@
+// src/components/ui/UserOverview.tsx
 import React from "react";
 import * as Icons from "../../assets/icons";
 import type { UserOverviewProps } from "../../types/user.types";
@@ -7,8 +8,8 @@ const UserOverview: React.FC<UserOverviewProps> = ({
   userData,
   tabOptions,
 }) => {
-  const renderStars = (tier: number): JSX.Element[] => {
-    const stars: JSX.Element[] = [];
+  const renderStars = (tier: number): React.ReactElement[] => {
+    const stars: React.ReactElement[] = [];
     for (let i = 1; i <= 3; i++) {
       stars.push(
         i <= tier ? <Icons.StarIcon key={i} /> : <Icons.EmptyStarIcon key={i} />
@@ -18,7 +19,6 @@ const UserOverview: React.FC<UserOverviewProps> = ({
   };
 
   const handleTabClick = (tabIndex: number, tabName: string): void => {
-    // Handle tab navigation
     console.log(`Switching to tab: ${tabName} at index ${tabIndex}`);
   };
 

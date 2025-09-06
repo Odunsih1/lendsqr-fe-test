@@ -3,7 +3,7 @@ import LoginPage from "./components/layout/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import User from "./pages/User";
 // import UserDetail from "./components/ui/UserDetails";
-import { UserProvider } from "./context/UserContext";
+import { UserProvider } from "./context/UserProvider";
 
 function App() {
   return (

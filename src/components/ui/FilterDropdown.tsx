@@ -78,7 +78,6 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
     onClose();
   };
 
-  // Format date for input (convert from display format if needed)
   const formatDateForInput = (dateString: string): string => {
     if (!dateString) return "";
     try {
@@ -104,6 +103,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         <div className={styles.filterGroup}>
           <label className={styles.label}>Organization</label>
           <select
+            title="organization"
             value={filters.organization}
             onChange={(e) => handleInputChange("organization", e.target.value)}
             className={styles.select}
@@ -143,6 +143,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
           <label className={styles.label}>Date</label>
           <div className={styles.dateInputWrapper}>
             <input
+              title="date"
               type="date"
               value={formatDateForInput(filters.date)}
               onChange={(e) => handleInputChange("date", e.target.value)}
@@ -166,6 +167,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         <div className={styles.filterGroup}>
           <label className={styles.label}>Status</label>
           <select
+            title="status"
             value={filters.status}
             onChange={(e) => handleInputChange("status", e.target.value)}
             className={styles.select}

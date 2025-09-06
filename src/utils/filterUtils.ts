@@ -46,7 +46,7 @@ export class FilterUtils {
           }
         } catch (error) {
           // If date parsing fails, skip this filter
-          console.warn('Invalid date format in filter');
+          console.warn('Invalid date format in filter' + error);
         }
       }
       

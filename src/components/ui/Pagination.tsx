@@ -84,6 +84,7 @@ const Pagination: React.FC<PaginationProps> = ({
           Showing{" "}
           <span>
             <select
+              title="usersPerPage"
               value={usersPerPage}
               onChange={handleUsersPerPageChange}
               className={styles.current}

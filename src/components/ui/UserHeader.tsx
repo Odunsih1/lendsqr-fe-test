@@ -1,21 +1,12 @@
 import React from "react";
 import * as Icons from "../../assets/icons";
 import Button from "./Button";
+import type { User, UserStatus } from "../../types/user.types";
 import styles from "../../styles/useDetail.module.scss";
 
-interface UserDetailsData {
-  name: string;
-  id: string;
-  avatar: string;
-  tier: number;
-  bankBalance: string;
-  bankDetails: string;
-  status: string;
-}
-
 interface UserHeaderProps {
-  userData: UserDetailsData;
-  onStatusUpdate?: (userId: string, status: string) => void;
+  userData: User;
+  onStatusUpdate?: (userId: string, status: UserStatus) => void;
 }
 
 const UserHeader: React.FC<UserHeaderProps> = ({

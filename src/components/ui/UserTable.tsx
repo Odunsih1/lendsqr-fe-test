@@ -46,7 +46,9 @@ const UserTable: React.FC<UserTableProps> = ({
             ].map((header, index) => (
               <th
                 key={header}
-                ref={(el) => (filterRefs.current[index] = el)}
+                ref={(el) => {
+                  filterRefs.current[index] = el; // No implicit return
+                }}
                 onClick={(e) => index < 6 && onFilterClick(e, index)} // Prevent filter on last column
               >
                 {header}
@@ -70,7 +72,9 @@ const UserTable: React.FC<UserTableProps> = ({
               </td>
               <td>
                 <div
-                  ref={(el) => (actionRefs.current[index] = el)}
+                  ref={(el) => {
+                    actionRefs.current[index] = el; // No implicit return
+                  }}
                   className={styles.actionIcon}
                   onClick={(e) => onActionClick(e, user.id, index)}
                 >

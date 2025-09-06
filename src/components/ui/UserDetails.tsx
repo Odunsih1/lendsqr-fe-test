@@ -1,21 +1,17 @@
+// src/components/ui/UserDetails.tsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UserHeader from "./UserHeader";
 import UserOverview from "./UserOverview";
 import UserDetailsSection from "./UserDetailsSection";
-import type { User, InfoItem } from "../../types/user.types";
-import { UserStorageService } from "../../utils/LocalStorage";
+import type {
+  User,
+  InfoItem,
+  RawUser,
+  UserStatus,
+} from "../../types/user.types";
+import { UserStorageService } from "../../utils/LocalStorage"; // Ensure correct casing
 import styles from "../../styles/useDetail.module.scss";
-
-interface UserDetailsData {
-  name: string;
-  id: string;
-  avatar: string;
-  tier: number;
-  bankBalance: string;
-  bankDetails: string;
-  status: string;
-}
 
 const UserDetails: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -35,11 +31,11 @@ const UserDetails: React.FC = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const data: { users: RawUser[] } = await response.json();
 
         // Find the specific user
         const foundUser = data.users.find(
-          (u: any) => u.id.toString() === userId
+          (u: RawUser) => u.id?.toString() === userId
         );
 
         if (!foundUser) {
@@ -52,7 +48,7 @@ const UserDetails: React.FC = () => {
 
         // Format user data
         const formattedUser: User = {
-          id: foundUser.id.toString(),
+          id: foundUser.id?.toString() || userId!,
           organization: foundUser.organization || "Unknown",
           username:
             foundUser.personalInformation?.fullName?.split(" ")[0] ||
@@ -70,18 +66,70 @@ const UserDetails: React.FC = () => {
               })
             : "N/A",
           status:
-            statusUpdates[foundUser.id.toString()] ||
+            (foundUser.id && statusUpdates[foundUser.id.toString()]) ||
             foundUser.status?.toLowerCase() ||
             "unknown",
-          personalInformation: foundUser.personalInformation,
-          educationAndEmployment: foundUser.educationAndEmployment,
-          socials: foundUser.socials,
-          guarantor: foundUser.guarantor,
+          avatar: foundUser.avatar || "https://default-avatar.com",
+          name:
+            foundUser.name ||
+            foundUser.personalInformation?.fullName ||
+            "Unknown",
+          tier: foundUser.tier || 1,
+          bankBalance: foundUser.bankBalance || "0",
+          bankDetails: foundUser.bankDetails || "N/A",
+          personalInformation: foundUser.personalInformation
+            ? {
+                fullName: foundUser.personalInformation.fullName || "Unknown",
+                email: foundUser.personalInformation.email || "N/A",
+                bvn: foundUser.personalInformation.bvn || 0,
+                gender: foundUser.personalInformation.gender || "N/A",
+                maritalStatus:
+                  foundUser.personalInformation.maritalStatus || "N/A",
+                children: foundUser.personalInformation.children || 0,
+                typeOfResidence:
+                  foundUser.personalInformation.typeOfResidence || "N/A",
+                phoneNumber: foundUser.personalInformation.phoneNumber || "N/A",
+              }
+            : undefined,
+          educationAndEmployment: foundUser.educationAndEmployment
+            ? {
+                levelOfEducation:
+                  foundUser.educationAndEmployment.levelOfEducation || "N/A",
+                employmentStatus:
+                  foundUser.educationAndEmployment.employmentStatus || "N/A",
+                sectorOfEmployment:
+                  foundUser.educationAndEmployment.sectorOfEmployment || "N/A",
+                durationOfEmployment:
+                  foundUser.educationAndEmployment.durationOfEmployment ||
+                  "N/A",
+                officeEmail:
+                  foundUser.educationAndEmployment.officeEmail || "N/A",
+                monthlyIncome:
+                  foundUser.educationAndEmployment.monthlyIncome || "N/A",
+                loanRepayment:
+                  foundUser.educationAndEmployment.loanRepayment || "N/A",
+              }
+            : undefined,
+          socials: foundUser.socials
+            ? {
+                twitter: foundUser.socials.twitter || "N/A",
+                facebook: foundUser.socials.facebook || "N/A",
+                instagram: foundUser.socials.instagram || "N/A",
+              }
+            : undefined,
+          guarantor: foundUser.guarantor
+            ? {
+                fullName: foundUser.guarantor.fullName || "N/A",
+                phoneNumber: foundUser.guarantor.phoneNumber || "N/A",
+                email: foundUser.guarantor.email || "N/A",
+                relationship: foundUser.guarantor.relationship || "N/A",
+              }
+            : undefined,
         };
 
         setUser(formattedUser);
-      } catch (error: any) {
-        console.error("Fetch error:", error.message);
+      } catch (error) {
+        console.error("Fetch error:", error);
         setError("Failed to load user details");
       } finally {
         setLoading(false);
@@ -94,7 +142,7 @@ const UserDetails: React.FC = () => {
   }, [userId]);
 
   // Handle status updates
-  const handleStatusUpdate = (userId: string, newStatus: string) => {
+  const handleStatusUpdate = (userId: string, newStatus: UserStatus) => {
     if (user) {
       const updatedUser = { ...user, status: newStatus };
       setUser(updatedUser);
@@ -133,7 +181,7 @@ const UserDetails: React.FC = () => {
   const personalInfo: InfoItem[] = [
     {
       label: "FULL NAME",
-      value: user.personalInformation?.fullName || user.username,
+      value: user.personalInformation?.fullName || user.name,
     },
     {
       label: "PHONE NUMBER",
@@ -203,16 +251,17 @@ const UserDetails: React.FC = () => {
     { label: "RELATIONSHIP", value: user.guarantor?.relationship || "N/A" },
   ];
 
-  // Create user data for header and overview
-  const userData: UserDetailsData = {
-    name: user.personalInformation?.fullName || user.username,
-    id: user.id,
-    avatar: "/images/user.png",
-    tier: 1,
+  // Use the full User object for userData
+  const userData: User = {
+    ...user,
+    avatar: user.avatar || "/images/user.png",
+    name: user.name || user.personalInformation?.fullName || user.username,
+    tier: user.tier || 1,
     bankBalance:
-      user.educationAndEmployment?.monthlyIncome?.split(" - ")[1] || "₦0.00",
-    bankDetails: "9912345678/Providus Bank",
-    status: user.status,
+      user.bankBalance ||
+      user.educationAndEmployment?.monthlyIncome?.split(" - ")[1] ||
+      "₦0.00",
+    bankDetails: user.bankDetails || "9912345678/Providus Bank",
   };
 
   return (
