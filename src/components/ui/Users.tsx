@@ -5,7 +5,7 @@ import UserTable from "./UserTable";
 import Pagination from "./Pagination";
 import type { User, FilterState } from "../../types/user.types";
 import { FilterUtils } from "../../utils/filterUtils";
-import { UserStorageService } from "../../utils/LocalStorage";
+import { UserStorageService } from "../../utils/localStorage";
 import styles from "../../styles/Users.module.scss";
 
 const Users: React.FC = () => {

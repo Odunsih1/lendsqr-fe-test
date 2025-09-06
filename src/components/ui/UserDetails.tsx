@@ -10,7 +10,7 @@ import type {
   RawUser,
   UserStatus,
 } from "../../types/user.types";
-import { UserStorageService } from "../../utils/LocalStorage"; // Ensure correct casing
+import { UserStorageService } from "../../utils/localStorage";
 import styles from "../../styles/useDetail.module.scss";
 
 const UserDetails: React.FC = () => {
@@ -254,7 +254,7 @@ const UserDetails: React.FC = () => {
   // Use the full User object for userData
   const userData: User = {
     ...user,
-    avatar: user.avatar || "/images/user.png",
+    avatar: "/images/user.png",
     name: user.name || user.personalInformation?.fullName || user.username,
     tier: user.tier || 1,
     bankBalance:

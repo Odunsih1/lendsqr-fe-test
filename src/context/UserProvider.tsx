@@ -8,7 +8,7 @@ import type {
 } from "../types/user.types";
 import { UserContext } from "./useUserContext";
 import { FilterUtils } from "../utils/filterUtils";
-import { UserStorageService } from "../utils/LocalStorage";
+import { UserStorageService } from "../utils/localStorage";
 
 interface UserProviderProps {
   children: ReactNode;
