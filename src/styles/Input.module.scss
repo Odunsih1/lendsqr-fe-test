@@ -2,7 +2,9 @@
 @use './mixins' as m;
 
 .inputWrapper {
-  width: 100%;
+  position: absolute;
+  right: 20px;
+  width: 90%;
   margin-bottom: v.$spacing-md;
 }
 

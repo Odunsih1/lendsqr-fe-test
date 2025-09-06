@@ -1,7 +1,7 @@
 @use './variables' as v;
 
 .table {
-    width: 100%;
+    // width: 100%;
     background-color: v.$white;
     padding: 20px;
     margin-top: 40px;
@@ -19,14 +19,14 @@
         width: 100%;
         border-collapse: collapse;
         background-color: v.$white;
-        min-width: 900px; // Minimum width to maintain readability
+        // min-width: 900px; // Minimum width to maintain readability
         
         @media (max-width: v.$breakpoint-xl) {
-            min-width: 800px;
+            // min-width: 800px;
         }
         
         @media (max-width: v.$breakpoint-lg) {
-            min-width: 700px;
+            // min-width: 700px;
         }
     }
 }

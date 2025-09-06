@@ -33,14 +33,14 @@
    }
 
    @media (max-width: v.$breakpoint-md) {
-       width: 100%;
+       width: 80%;
        max-width: 400px;
        height: 130px;
        padding: v.$spacing-md;
    }
 
    @media (max-width: v.$breakpoint-sm) {
-       width: 100%;
+       width: 90%;
        max-width: none;
        height: 120px;
        padding: v.$spacing-md v.$spacing-sm;

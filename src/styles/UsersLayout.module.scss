@@ -11,16 +11,16 @@
     }
 
     @media (max-width: v.$breakpoint-lg) {
-        padding: 80px v.$spacing-md v.$spacing-xl v.$spacing-md;
+        padding: 100px v.$spacing-md v.$spacing-xl v.$spacing-md;
         margin-left: 0;
     }
 
     @media (max-width: v.$breakpoint-md) {
-        padding: 80px v.$spacing-md v.$spacing-lg v.$spacing-md;
+        padding: 100px v.$spacing-md v.$spacing-lg v.$spacing-md;
     }
 
     @media (max-width: v.$breakpoint-sm) {
-        padding: 70px v.$spacing-sm v.$spacing-md v.$spacing-sm;
+        padding: 100px v.$spacing-sm v.$spacing-md v.$spacing-sm;
     }
 }
 

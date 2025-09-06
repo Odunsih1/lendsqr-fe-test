@@ -42,7 +42,7 @@
   width: 100%;
   margin: 0 v.$spacing-xl;
 
-  @media (max-width: v.$breakpoint-md) {
+  @media (max-width: v.$breakpoint-lg) {
     position: static;
     margin: 0;
     width: 100%;
@@ -106,7 +106,7 @@
   width: 56px;
   height: 44px;
   position: relative;
-  right: -24px;
+  left: 384px;
   top: 0px;
   border-radius: 0 8px 8px 0;
 
@@ -115,7 +115,7 @@
     height: 20px;
   }
 
-  @media (max-width: v.$breakpoint-md) {
+  @media (max-width: v.$breakpoint-lg) {
     width: 44px;
     height: 44px;
     position: static;
@@ -130,22 +130,7 @@
   }
 }
 
-.cancelSearch {
-  display: none;
-  @media (max-width: v.$breakpoint-md) {
-    display: block;
-    position: absolute;
-    right: v.$spacing-md;
-    top: 18px;
-    left: -40px;
-    background: none;
-    border: none;
-    font-size: 22px;
-    color: v.$heading-color;
-    z-index: 101;
-    padding: 0;
-  }
-}
+
 
 .profileContainer {
   display: flex;

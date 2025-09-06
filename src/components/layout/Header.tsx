@@ -90,7 +90,7 @@ const Header = () => {
               <a href="/settings" className={styles.menuItem}>
                 Settings
               </a>
-              <a href="/logout" className={styles.menuItem}>
+              <a href="/" className={styles.menuItem}>
                 Logout
               </a>
             </div>
