@@ -35,7 +35,7 @@
     object-fit: contain;
   }
 
-  @media (max-width: v.$breakpoint-md) {
-    max-width: 100%;
+  @media (max-width: v.$breakpoint-lg) {
+    display: none;
   }
 }

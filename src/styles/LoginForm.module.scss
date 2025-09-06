@@ -4,7 +4,6 @@
 .formContainer {
   flex: 1;
   max-width: 450px;
-//   padding: v.$spacing-xl;
 
   @media (max-width: v.$breakpoint-lg) {
     max-width: 100%;
@@ -46,4 +45,14 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.error {
+  color: v.$danger-red;
+  font-size: v.$font-size-small;
+  margin-top: 5px;
+}
+
+.loginButton, .input {
+  width: 100%;
 }
