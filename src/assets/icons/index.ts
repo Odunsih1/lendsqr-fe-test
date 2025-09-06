@@ -34,3 +34,6 @@ export { ReactComponent as CalendarIcon } from './calendar.svg';
 export { ReactComponent as DownArrowIcon } from './downArrow.svg';
 export { ReactComponent as LeftArrowIcon } from './leftArrow.svg';
 export { ReactComponent as RightArrowIcon } from './rightArrow.svg';
+export { ReactComponent as BackArrowIcon } from './backArrow.svg';
+export { ReactComponent as StarIcon } from './star.svg';
+export { ReactComponent as EmptyStarIcon } from './emptyStar.svg';

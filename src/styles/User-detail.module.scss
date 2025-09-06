@@ -1,0 +1,10 @@
+@use "./variables" as v;
+
+.layout {
+    display: flex;
+    position: relative;
+    
+    @media (max-width: v.$breakpoint-lg) {
+        flex-direction: column;
+    }
+}

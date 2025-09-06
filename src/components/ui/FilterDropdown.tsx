@@ -1,27 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as Icons from "../../assets/icons";
 import Button from "../ui/Button";
+import type { FilterDropdownProps, FilterState } from "../../types/user.types";
 import styles from "../../styles/FilterDropdown.module.scss";
-
-interface FilterDropdownProps {
-  isOpen: boolean;
-  onClose: () => void;
-  position: { top: number; left: number };
-}
-
-interface FilterState {
-  organization: string;
-  username: string;
-  email: string;
-  date: string;
-  phoneNumber: string;
-  status: string;
-}
 
 const FilterDropdown: React.FC<FilterDropdownProps> = ({
   isOpen,
   onClose,
   position,
+  onFilter,
+  users,
 }) => {
   const [filters, setFilters] = useState<FilterState>({
     organization: "",
@@ -33,6 +21,12 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   });
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Get unique organizations from users data
+  const uniqueOrganizations = React.useMemo(() => {
+    const orgs = [...new Set(users.map((user) => user.organization))];
+    return orgs.filter((org) => org && org !== "Unknown").sort();
+  }, [users]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -61,25 +55,38 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
     };
   }, [isOpen, onClose]);
 
-  const handleInputChange = (field: keyof FilterState, value: string) => {
+  const handleInputChange = (field: keyof FilterState, value: string): void => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleReset = () => {
-    setFilters({
+  const handleReset = (): void => {
+    const emptyFilters: FilterState = {
       organization: "",
       username: "",
       email: "",
       date: "",
       phoneNumber: "",
       status: "",
-    });
+    };
+    setFilters(emptyFilters);
+    onFilter(emptyFilters);
+    onClose();
   };
 
-  const handleFilter = () => {
-    console.log("Applying filters:", filters);
-    // Implement filter logic here
+  const handleFilter = (): void => {
+    onFilter(filters);
     onClose();
+  };
+
+  // Format date for input (convert from display format if needed)
+  const formatDateForInput = (dateString: string): string => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.toISOString().split("T")[0];
+    } catch {
+      return dateString;
+    }
   };
 
   if (!isOpen) return null;
@@ -102,9 +109,11 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
             className={styles.select}
           >
             <option value="">Select Organization</option>
-            <option value="lendsqr">Lendsqr</option>
-            <option value="irorun">Irorun</option>
-            <option value="lendstar">Lendstar</option>
+            {uniqueOrganizations.map((org) => (
+              <option key={org} value={org}>
+                {org}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -135,8 +144,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
           <div className={styles.dateInputWrapper}>
             <input
               type="date"
-              placeholder="Date"
-              value={filters.date}
+              value={formatDateForInput(filters.date)}
               onChange={(e) => handleInputChange("date", e.target.value)}
               className={styles.dateInput}
             />

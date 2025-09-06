@@ -1,19 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import * as Icons from "../../assets/icons";
+import type { ActionDropdownProps } from "../../types/user.types";
 import styles from "../../styles/ActionDropdown.module.scss";
-
-interface ActionDropdownProps {
-  isOpen: boolean;
-  onClose: () => void;
-  position: { top: number; left: number };
-  userId: string;
-}
 
 const ActionDropdown: React.FC<ActionDropdownProps> = ({
   isOpen,
   onClose,
   position,
   userId,
+  onStatusChange,
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -44,21 +39,29 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({
     };
   }, [isOpen, onClose]);
 
-  const handleViewDetails = () => {
-    console.log("View details for user:", userId);
-    // Implement view details logic
+  const handleViewDetails = (): void => {
+    // Navigate to user details page
+    window.location.href = `/user-details/${userId}`;
     onClose();
   };
 
-  const handleBlacklistUser = () => {
-    console.log("Blacklist user:", userId);
-    // Implement blacklist logic
+  const handleBlacklistUser = (): void => {
+    const newStatus = "blacklisted";
+    onStatusChange(userId, newStatus);
+
+    // Show confirmation message
+    console.log(`User ${userId} has been blacklisted`);
+
     onClose();
   };
 
-  const handleActivateUser = () => {
-    console.log("Activate user:", userId);
-    // Implement activate logic
+  const handleActivateUser = (): void => {
+    const newStatus = "active";
+    onStatusChange(userId, newStatus);
+
+    // Show confirmation message
+    console.log(`User ${userId} has been activated`);
+
     onClose();
   };
 
@@ -85,7 +88,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({
 
         <button
           onClick={handleBlacklistUser}
-          className={styles.actionItem}
+          className={`${styles.actionItem} ${styles.dangerAction}`}
           type="button"
         >
           <Icons.BlacklistIcon className={styles.actionIcon} />
@@ -94,7 +97,7 @@ const ActionDropdown: React.FC<ActionDropdownProps> = ({
 
         <button
           onClick={handleActivateUser}
-          className={styles.actionItem}
+          className={`${styles.actionItem} ${styles.successAction}`}
           type="button"
         >
           <Icons.ActivateIcon className={styles.actionIcon} />

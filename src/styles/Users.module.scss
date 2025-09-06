@@ -307,3 +307,243 @@
         }
     }
 }
+
+
+
+// styles/Users.module.scss (additional styles)
+
+.usersContainer {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background-color: v.$white;
+  border-radius: v.$border-radius;
+  margin: v.$spacing-xl 0;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(57, 205, 204, 0.1);
+    border-top: 4px solid v.$primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: v.$spacing-md;
+  }
+
+  p {
+    font-size: v.$font-size-lg;
+    color: v.$text-color;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  margin: v.$spacing-xl 0;
+
+  .error {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: v.$spacing-xl;
+    border-radius: v.$border-radius;
+    text-align: center;
+    max-width: 500px;
+
+    h3 {
+      margin: 0 0 v.$spacing-md 0;
+      font-size: v.$font-size-lg;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 v.$spacing-lg 0;
+      font-size: v.$font-size-md;
+    }
+
+    button {
+      background-color: #dc2626;
+      color: white;
+      border: none;
+      padding: v.$spacing-sm v.$spacing-lg;
+      border-radius: v.$border-radius;
+      font-size: v.$font-size-md;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #b91c1c;
+      }
+    }
+  }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background-color: v.$white;
+  border-radius: v.$border-radius;
+  margin: v.$spacing-xl 0;
+  padding: v.$spacing-xl;
+
+  p {
+    font-size: v.$font-size-lg;
+    color: v.$text-color;
+    text-align: center;
+    margin: 0 0 v.$spacing-lg 0;
+  }
+
+  button {
+    background-color: v.$primary-color;
+    color: white;
+    border: none;
+    padding: v.$spacing-sm v.$spacing-lg;
+    border-radius: v.$border-radius;
+    font-size: v.$font-size-md;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(v.$primary-color, 10%);
+    }
+  }
+}
+
+// Enhanced status styling in table
+.active {
+  background-color: rgba(57, 205, 98, 0.1);
+  color: #39cd62;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.inactive {
+  background-color: rgba(84, 95, 125, 0.1);
+  color: v.$text-color;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.pending {
+  background-color: rgba(233, 178, 0, 0.1);
+  color: #e9b200;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.blacklisted {
+  background-color: rgba(228, 3, 59, 0.1);
+  color: v.$danger-red;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.unknown {
+  background-color: rgba(84, 95, 125, 0.1);
+  color: v.$text-color;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+// styles/ActionDropdown.module.scss (additional styles)
+.dangerAction {
+  &:hover {
+    background-color: rgba(228, 3, 59, 0.1);
+    color: v.$danger-red;
+  }
+}
+
+.successAction {
+  &:hover {
+    background-color: rgba(57, 205, 204, 0.1);
+    color: v.$primary-color;
+  }
+}
+
+// styles/useDetail.module.scss (additional styles)
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  
+  p {
+    font-size: v.$font-size-lg;
+    color: v.$text-color;
+  }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  text-align: center;
+  
+  h3 {
+    color: v.$danger-red;
+    margin-bottom: v.$spacing-md;
+  }
+
+  p {
+    color: v.$text-color;
+    margin-bottom: v.$spacing-lg;
+  }
+
+  button {
+    background-color: v.$primary-color;
+    color: white;
+    border: none;
+    padding: v.$spacing-sm v.$spacing-lg;
+    border-radius: v.$border-radius;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: darken(v.$primary-color, 10%);
+    }
+  }
+}
